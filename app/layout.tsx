@@ -3,8 +3,8 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
+  title: 'legal-bot',
+  description: 'Tu asistente legal inteligente',
   generator: 'v0.dev',
 }
 
