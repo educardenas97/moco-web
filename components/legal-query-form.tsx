@@ -69,16 +69,24 @@ export function LegalQueryForm() {
           />
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Textarea
-              placeholder="Escribe tu consulta sobre temas tributarios en Paraguay. Por ejemplo: ¿Cuáles son los requisitos para constituir una empresa en Paraguay?"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="min-h-[120px] resize-y border-primary/20 focus-visible:ring-primary"
-              disabled={loading}
-            />
+          <div className="space-y-2">          <Textarea
+            placeholder="Escribe tu consulta sobre temas tributarios en Paraguay. Por ejemplo: ¿Cuáles son los requisitos para constituir una empresa en Paraguay?"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                e.preventDefault();
+                if (query.trim()) {
+                  handleSubmit(e);
+                }
+              }
+            }}
+            className="min-h-[120px] resize-y border-primary/20 focus-visible:ring-primary"
+            disabled={loading}
+          />
           </div>
-          <div className="flex justify-end">
+          <div className="flex justify-between items-center">
+            <p className="text-xs text-muted-foreground italic">Presiona Ctrl+Enter para enviar rápidamente</p>
             <Button
               type="submit"
               className="bg-primary hover:bg-primary/90 text-white"
