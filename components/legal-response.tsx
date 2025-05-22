@@ -67,22 +67,22 @@ export function LegalResponse({ response }: LegalResponseProps) {
 
   return (
     <Card
-      className={`shadow-lg border border-gray-200 rounded-2xl overflow-hidden transition-opacity duration-500 ${
+      className={`shadow-lg border border-border rounded-2xl overflow-hidden transition-opacity duration-500 ${
         isVisible ? "opacity-100" : "opacity-0"
       } animate-fadeInUp`}
     >
-      <CardHeader className="bg-primary/5 border-b border-gray-100">
+      <CardHeader className="bg-primary/5 border-b border-border">
         <CardTitle className="text-xl text-foreground flex items-center gap-2">
-          <Badge className="bg-primary text-white py-1 px-3 text-xs font-medium rounded-full">Respuesta</Badge>
+          <Badge className="bg-primary text-primary-foreground py-1 px-3 text-xs font-medium rounded-full">Respuesta</Badge>
           Consulta Tributaria
         </CardTitle>
       </CardHeader>
       <Tabs defaultValue="answer" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 rounded-none border-b bg-gray-50/80">
-          <TabsTrigger value="answer" className="data-[state=active]:bg-white data-[state=active]:text-primary">
+        <TabsList className="grid w-full grid-cols-2 rounded-none border-b bg-muted/80">
+          <TabsTrigger value="answer" className="data-[state=active]:bg-background data-[state=active]:text-primary">
             Respuesta
           </TabsTrigger>
-          <TabsTrigger value="sources" className="data-[state=active]:bg-white data-[state=active]:text-primary">
+          <TabsTrigger value="sources" className="data-[state=active]:bg-background data-[state=active]:text-primary">
             Fuentes ({sources.length})
           </TabsTrigger>
         </TabsList>
@@ -92,9 +92,9 @@ export function LegalResponse({ response }: LegalResponseProps) {
           </div>
         </TabsContent>
         <TabsContent value="sources" className="p-0">
-          <div className="divide-y divide-gray-100 staggered-reveal">
+          <div className="divide-y divide-border staggered-reveal">
             {sources.map((source, index) => (
-              <div key={index} className="p-4 md:p-6 hover:bg-gray-50/50 transition-colors">
+              <div key={index} className="p-4 md:p-6 hover:bg-primary/5 transition-colors">
                 <div className="flex items-start justify-between cursor-pointer" onClick={() => toggleSource(index)}>
                   <div className="flex items-center gap-3">
                     <div className="bg-primary/10 p-2 rounded-full">
@@ -105,7 +105,7 @@ export function LegalResponse({ response }: LegalResponseProps) {
                       <p className="text-sm text-muted-foreground truncate max-w-[500px]">{source.metadata.path}</p>
                     </div>
                   </div>
-                  <Badge variant="outline" className="ml-2 rounded-full border-gray-200">
+                  <Badge variant="outline" className="ml-2 rounded-full border-border">
                     {(source.score * 100).toFixed(1)}% relevancia
                   </Badge>
                   <Button variant="ghost" size="sm" className="ml-auto rounded-full hover:bg-primary/10">
@@ -114,7 +114,7 @@ export function LegalResponse({ response }: LegalResponseProps) {
                 </div>
 
                 {expandedSources[index] && (
-                  <div className="mt-4 p-4 bg-white border border-gray-100 rounded-xl text-sm animate-reveal shadow-sm">
+                  <div className="mt-4 p-4 bg-card border border-border rounded-xl text-sm animate-reveal shadow-sm">
                     <p className="whitespace-pre-wrap">{source.content}</p>
                   </div>
                 )}
