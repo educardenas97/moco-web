@@ -10,6 +10,7 @@ import { Card } from "@/components/ui/card"
 import { LegalResponse } from "@/components/legal-response"
 import { Loader } from "@/components/loader"
 import { HistoryDialog } from "@/components/history-dialog"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { useHistory } from "@/hooks/use-history"
 import type { LegalResponseData } from "@/types"
 import { submitLegalQuery } from "@/app/actions"
@@ -58,47 +59,54 @@ export function LegalQueryForm() {
     <div className="space-y-8">
       {loading && <FullPageLoader />}
 
-      <Card className="p-6 shadow-md">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-medium text-primary">Nueva consulta tributaria</h2>
-          <HistoryDialog
-            history={history}
-            onSelectQuery={handleSelectFromHistory}
-            onRemoveItem={removeFromHistory}
-            onClearHistory={clearHistory}
-          />
+      <Card className="p-6 md:p-8 shadow-lg border-border rounded-2xl">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-xl font-medium text-foreground">Nueva consulta tributaria</h2>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <HistoryDialog
+              history={history}
+              onSelectQuery={handleSelectFromHistory}
+              onRemoveItem={removeFromHistory}
+              onClearHistory={clearHistory}
+            />
+          </div>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">          <Textarea
-            placeholder="Escribe tu consulta sobre temas tributarios en Paraguay. Por ejemplo: ¿Cuáles son los requisitos para constituir una empresa en Paraguay?"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={(e) => {
-              if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-                e.preventDefault();
-                if (query.trim()) {
-                  handleSubmit(e);
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label htmlFor="legal-query" className="sr-only">Consulta tributaria</label>
+            <Textarea
+              id="legal-query"
+              placeholder="¿Cuáles son los requisitos para constituir una empresa en Paraguay?"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
+                  e.preventDefault();
+                  if (query.trim()) {
+                    handleSubmit(e);
+                  }
                 }
-              }
-            }}
-            className="min-h-[120px] resize-y border-primary/20 focus-visible:ring-primary"
-            disabled={loading}
-          />
+              }}
+              className="min-h-[150px] resize-y border border-input rounded-xl focus:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition-all"
+              disabled={loading}
+              aria-label="Nueva consulta tributaria"
+            />
           </div>
           <div className="flex justify-between items-center">
-            <p className="text-xs text-muted-foreground italic">Presiona Ctrl+Enter para enviar rápidamente</p>
+            <p className="text-sm text-muted-foreground">Presiona <kbd className="px-2 py-0.5 text-xs bg-muted rounded">Ctrl+Enter</kbd> para enviar</p>
             <Button
               type="submit"
-              className="bg-primary hover:bg-primary/90 text-white"
+              className="bg-primary hover:bg-primary-hover text-primary-foreground px-5 py-2.5 rounded-full font-medium min-w-[150px] min-h-[44px]"
               disabled={loading || !query.trim()}
             >
               {loading ? (
-                <span className="flex items-center gap-2">
-                  <Loader size={16} /> Procesando
+                <span className="flex items-center justify-center gap-2">
+                  <Loader size={18} /> Procesando
                 </span>
               ) : (
-                <span className="flex items-center gap-2">
-                  <Send size={16} /> Enviar consulta
+                <span className="flex items-center justify-center gap-2">
+                  <Send size={18} /> Enviar
                 </span>
               )}
             </Button>
@@ -107,8 +115,20 @@ export function LegalQueryForm() {
       </Card>
 
       {error && (
-        <Card className="p-6 border-destructive bg-destructive/10">
-          <p className="text-destructive font-medium">Error: {error}</p>
+        <Card className="p-6 md:p-8 border-destructive bg-destructive/5 rounded-2xl shadow-lg">
+          <div className="flex items-start gap-3">
+            <div className="p-2 bg-destructive/10 rounded-full text-destructive">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
+              </svg>
+            </div>
+            <div>
+              <h3 className="text-lg font-medium text-destructive mb-1">Error en la consulta</h3>
+              <p className="text-destructive/90">{error}</p>
+            </div>
+          </div>
         </Card>
       )}
 

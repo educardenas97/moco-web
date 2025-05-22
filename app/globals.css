@@ -18,26 +18,60 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 207 90% 54%;
     --radius: 16px;
+    
+    /* Spacing variables */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    
+    /* Primary color (material blue) */
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Button hover state */
+    --primary-hover: 207 90% 49%;
+    
+    /* Font sizes */
+    --font-size-title: clamp(2rem, 5vw, 2.5rem);
+    --font-size-subtitle: clamp(1.125rem, 2vw, 1.25rem);
+    --font-size-base: 1rem;
+    
+    /* Font weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
   }
 
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    /* Material Design dark mode colors */
+    --background: 0 0% 10%; /* Dark gray background */
+    --foreground: 0 0% 95%; /* Light text for dark mode */
+    --card: 0 0% 15%; /* Slightly lighter than background */
+    --card-foreground: 0 0% 95%; /* Light text for cards */
+    --popover: 0 0% 15%;
+    --popover-foreground: 0 0% 95%;
+    --muted: 0 0% 25%; /* Medium gray for muted elements */
+    --muted-foreground: 0 0% 70%; /* Slightly dimmed text */
+    
+    /* Material Design accent colors for dark mode */
+    --accent: 207 90% 20%; /* Darker shade of primary color */
+    --accent-foreground: 0 0% 95%;
+    
+    /* Ensure primary color is still bright in dark mode */
+    --primary: 207 90% 60%; /* Brighter blue for dark mode */
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 207 90% 65%; /* Hover state */
+    
+    /* Other elements */
+    --destructive: 0 84.2% 50%; /* Red for error states */
+    --destructive-foreground: 0 0% 95%;
+    --border: 0 0% 25%;
+    --input: 0 0% 20%;
+    --ring: 207 90% 60%; /* Match primary for focus rings */
   }
 }
 
@@ -46,7 +80,29 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1 {
+    @apply text-3xl font-medium lg:text-4xl tracking-tight;
+  }
+  h2 {
+    @apply text-2xl font-medium tracking-tight;
+  }
+  h3 {
+    @apply text-xl font-medium;
+  }
+  p {
+    @apply text-base leading-relaxed;
+  }
+  
+  /* Focus styles for better accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background transition-shadow duration-200;
+  }
+  
+  /* Smooth transitions */
+  button, a, input, textarea {
+    @apply transition-all duration-200;
   }
 }
 
@@ -132,4 +188,14 @@
 }
 .staggered-reveal > *:nth-child(10) {
   animation: reveal 0.5s ease-out 1.0s forwards;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
 }
