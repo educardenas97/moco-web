@@ -79,7 +79,7 @@ export function HistoryDrawer({ history, onSelectQuery, onRemoveItem, onClearHis
                   </div>
                   <p className="font-medium line-clamp-2 mb-2">{item.query}</p>
                   <Button
-                    variant="secondary"
+                    variant="default"
                     size="sm"
                     className="w-full"
                     onClick={() => handleSelectQuery(item.query)}

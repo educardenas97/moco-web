@@ -9,5 +9,5 @@ interface LoaderProps {
 }
 
 export function Loader({ size = 24, className }: LoaderProps) {
-  return <CircleNotch size={size} className={cn("animate-spin", className)} />
+  return <CircleNotch size={size} className={cn("animate-spin text-primary", className)} />
 }

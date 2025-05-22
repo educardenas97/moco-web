@@ -18,8 +18,32 @@
     --destructive-foreground: 0 0% 98%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --ring: 240 5.9% 10%;
+    --ring: 207 90% 54%;
     --radius: 16px;
+    
+    /* Spacing variables */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+    --space-xl: 3rem;
+    
+    /* Primary color (material blue) */
+    --primary: 207 90% 54%;
+    --primary-foreground: 0 0% 100%;
+    
+    /* Button hover state */
+    --primary-hover: 207 90% 49%;
+    
+    /* Font sizes */
+    --font-size-title: clamp(2rem, 5vw, 2.5rem);
+    --font-size-subtitle: clamp(1.125rem, 2vw, 1.25rem);
+    --font-size-base: 1rem;
+    
+    /* Font weights */
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
   }
 
   .dark {
@@ -46,7 +70,29 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  h1 {
+    @apply text-3xl font-medium lg:text-4xl tracking-tight;
+  }
+  h2 {
+    @apply text-2xl font-medium tracking-tight;
+  }
+  h3 {
+    @apply text-xl font-medium;
+  }
+  p {
+    @apply text-base leading-relaxed;
+  }
+  
+  /* Focus styles for better accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background transition-shadow duration-200;
+  }
+  
+  /* Smooth transitions */
+  button, a, input, textarea {
+    @apply transition-all duration-200;
   }
 }
 
@@ -132,4 +178,14 @@
 }
 .staggered-reveal > *:nth-child(10) {
   animation: reveal 0.5s ease-out 1.0s forwards;
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
 }
