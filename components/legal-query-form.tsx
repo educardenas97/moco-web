@@ -19,8 +19,14 @@ import { StorageInfo } from "@/components/storage-info"
 import { StorageNotification } from "@/components/storage-notification"
 import { useHistory } from "@/hooks/use-history"
 import type { LegalResponseData } from "@/types"
-import { submitLegalQuery } from "@/app/actions"
-import { FullPageLoader } from "@/components/full-page-loader"
+import { submitLegalQueryWithMedia } from "@/app/actions"
+import { AdvancedLoader } from "@/components/advanced-loader"
+
+interface MediaItem {
+  name: string
+  size: number
+  metadata: Record<string, any>
+}
 
 export function LegalQueryForm() {
   // Estados del componente
@@ -28,6 +34,7 @@ export function LegalQueryForm() {
   const [response, setResponse] = useState<LegalResponseData | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [mediaFiles, setMediaFiles] = useState<MediaItem[]>([])
   
   // Hook personalizado para manejo del historial
   const { history, addToHistory, removeFromHistory, clearHistory, exportHistory, isLoaded } = useHistory()
@@ -45,17 +52,24 @@ export function LegalQueryForm() {
     setError(null)
 
     try {
-      // Enviar consulta al servidor
-      const { data, error: apiError } = await submitLegalQuery(query)
+      // Enviar consulta al servidor y obtener archivos de media en paralelo
+      const { queryData, mediaData, queryError, mediaError } = await submitLegalQueryWithMedia(query)
 
-      if (apiError) {
-        throw new Error(apiError)
+      if (queryError) {
+        throw new Error(queryError)
       }
 
-      if (data) {
-        setResponse(data)
+      if (queryData) {
+        setResponse(queryData)
         // Guardar en el historial
-        addToHistory(query, data)
+        addToHistory(query, queryData)
+      }
+
+      // Guardar archivos de media para el loader
+      if (mediaData && Array.isArray(mediaData)) {
+        setMediaFiles(mediaData)
+      } else if (mediaError) {
+        console.warn("Error loading media files:", mediaError)
       }
     } catch (err) {
       console.error(err)
@@ -71,7 +85,7 @@ export function LegalQueryForm() {
 
   return (
     <div className="space-y-8">
-      {loading && <FullPageLoader />}
+      <AdvancedLoader isLoading={loading} mediaFiles={mediaFiles} />
       <StorageNotification onClearHistory={clearHistory} />
 
       <Card className="p-6 md:p-8 shadow-lg border-border rounded-2xl">
