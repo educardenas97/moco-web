@@ -18,6 +18,7 @@ interface Source {
   score: number
   title: string
   content: string
+  pageNumber?: number
 }
 
 interface LegalResponseProps {
@@ -92,9 +93,16 @@ export function LegalResponse({ response }: LegalResponseProps) {
           </div>
         </TabsContent>
         <TabsContent value="sources" className="p-0">
-          <div className="divide-y divide-border staggered-reveal">
+          <div className="divide-y divide-border">
             {sources.map((source, index) => (
-              <div key={index} className="p-4 md:p-6 hover:bg-primary/5 transition-colors">
+              <div 
+                key={index} 
+                className="p-4 md:p-6 hover:bg-primary/5 transition-colors opacity-0 animate-reveal"
+                style={{
+                  animationDelay: `${(index + 1) * 0.1}s`,
+                  animationFillMode: 'forwards'
+                }}
+              >
                 <div className="flex items-start justify-between cursor-pointer" onClick={() => toggleSource(index)}>
                   <div className="flex items-center gap-3">
                     <div className="bg-primary/10 p-2 rounded-full">
@@ -102,7 +110,9 @@ export function LegalResponse({ response }: LegalResponseProps) {
                     </div>
                     <div>
                       <h3 className="font-medium text-foreground">{source.title}</h3>
-                      <p className="text-sm text-muted-foreground truncate max-w-[500px]">{source.metadata.path}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {source.pageNumber ? `Página ${source.pageNumber}` : source.metadata.path}
+                      </p>
                     </div>
                   </div>
                   <Badge variant="outline" className="ml-2 rounded-full border-border">
@@ -115,6 +125,10 @@ export function LegalResponse({ response }: LegalResponseProps) {
 
                 {expandedSources[index] && (
                   <div className="mt-4 p-4 bg-card border border-border rounded-xl text-sm animate-reveal shadow-sm">
+                    <div className="mb-3 pb-2 border-b border-border">
+                      <p className="text-xs text-muted-foreground font-medium">Fuente:</p>
+                      <p className="text-xs text-muted-foreground break-all">{source.metadata.path}</p>
+                    </div>
                     <p className="whitespace-pre-wrap">{source.content}</p>
                   </div>
                 )}

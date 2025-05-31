@@ -189,6 +189,40 @@
 .staggered-reveal > *:nth-child(10) {
   animation: reveal 0.5s ease-out 1.0s forwards;
 }
+.staggered-reveal > *:nth-child(11) {
+  animation: reveal 0.5s ease-out 1.1s forwards;
+}
+.staggered-reveal > *:nth-child(12) {
+  animation: reveal 0.5s ease-out 1.2s forwards;
+}
+.staggered-reveal > *:nth-child(13) {
+  animation: reveal 0.5s ease-out 1.3s forwards;
+}
+.staggered-reveal > *:nth-child(14) {
+  animation: reveal 0.5s ease-out 1.4s forwards;
+}
+.staggered-reveal > *:nth-child(15) {
+  animation: reveal 0.5s ease-out 1.5s forwards;
+}
+.staggered-reveal > *:nth-child(16) {
+  animation: reveal 0.5s ease-out 1.6s forwards;
+}
+.staggered-reveal > *:nth-child(17) {
+  animation: reveal 0.5s ease-out 1.7s forwards;
+}
+.staggered-reveal > *:nth-child(18) {
+  animation: reveal 0.5s ease-out 1.8s forwards;
+}
+.staggered-reveal > *:nth-child(19) {
+  animation: reveal 0.5s ease-out 1.9s forwards;
+}
+.staggered-reveal > *:nth-child(20) {
+  animation: reveal 0.5s ease-out 2.0s forwards;
+}
+/* Fallback for sources beyond 20 - they will appear without staggered animation */
+.staggered-reveal > *:nth-child(n+21) {
+  animation: reveal 0.5s ease-out 2.1s forwards;
+}
 
 /* Custom animations */
 @keyframes fadeIn {
