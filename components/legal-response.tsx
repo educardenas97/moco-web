@@ -129,7 +129,9 @@ export function LegalResponse({ response }: LegalResponseProps) {
                       <p className="text-xs text-muted-foreground font-medium">Fuente:</p>
                       <p className="text-xs text-muted-foreground break-all">{source.metadata.path}</p>
                     </div>
-                    <p className="whitespace-pre-wrap">{source.content}</p>
+                    <p className="leading-relaxed">
+                      {source.content.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim()}
+                    </p>
                   </div>
                 )}
               </div>

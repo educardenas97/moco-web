@@ -1,3 +1,7 @@
+/**
+ * Componente principal del formulario de consultas tributarias
+ * Maneja la entrada del usuario, envío de consultas y visualización de respuestas
+ */
 "use client"
 
 import type React from "react"
@@ -11,18 +15,27 @@ import { LegalResponse } from "@/components/legal-response"
 import { Loader } from "@/components/loader"
 import { HistoryDialog } from "@/components/history-dialog"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { StorageInfo } from "@/components/storage-info"
+import { StorageNotification } from "@/components/storage-notification"
 import { useHistory } from "@/hooks/use-history"
 import type { LegalResponseData } from "@/types"
 import { submitLegalQuery } from "@/app/actions"
 import { FullPageLoader } from "@/components/full-page-loader"
 
 export function LegalQueryForm() {
+  // Estados del componente
   const [query, setQuery] = useState("")
   const [response, setResponse] = useState<LegalResponseData | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { history, addToHistory, removeFromHistory, clearHistory } = useHistory()
+  
+  // Hook personalizado para manejo del historial
+  const { history, addToHistory, removeFromHistory, clearHistory, exportHistory, isLoaded } = useHistory()
 
+  /**
+   * Maneja el envío del formulario de consulta
+   * @param e - Evento del formulario
+   */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
@@ -32,6 +45,7 @@ export function LegalQueryForm() {
     setError(null)
 
     try {
+      // Enviar consulta al servidor
       const { data, error: apiError } = await submitLegalQuery(query)
 
       if (apiError) {
@@ -40,7 +54,7 @@ export function LegalQueryForm() {
 
       if (data) {
         setResponse(data)
-        // Save to history
+        // Guardar en el historial
         addToHistory(query, data)
       }
     } catch (err) {
@@ -58,17 +72,20 @@ export function LegalQueryForm() {
   return (
     <div className="space-y-8">
       {loading && <FullPageLoader />}
+      <StorageNotification onClearHistory={clearHistory} />
 
       <Card className="p-6 md:p-8 shadow-lg border-border rounded-2xl">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-xl font-medium text-foreground">Nueva consulta tributaria</h2>
           <div className="flex items-center gap-2">
             <ThemeToggle />
+            <StorageInfo onClearHistory={clearHistory} />
             <HistoryDialog
               history={history}
               onSelectQuery={handleSelectFromHistory}
               onRemoveItem={removeFromHistory}
               onClearHistory={clearHistory}
+              onExportHistory={exportHistory}
             />
           </div>
         </div>
